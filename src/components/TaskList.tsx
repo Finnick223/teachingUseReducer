@@ -25,7 +25,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, filteredTasks, toggleTask, r
           removeTask={removeTask}
           />
         ))}
-        <Typography sx={{m: 3, display: "flex", justifyContent: "center"}}>Liczba zadań do zrobienia: {tasks.filter(task => !task.completed).length}</Typography>
+        <Typography sx={{m: 3, display: "flex", justifyContent: "center"}}>Tasks waiting to complete: {tasks.filter(task => !task.completed).length}</Typography>
     </Box>
   );
 };
