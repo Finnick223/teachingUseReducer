@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import { TaskFormProps } from '../interfaces/interfaces';
 
-interface TaskFormProps {
-    addTask: (text: string) => void;
-  }
-  
 
 const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
     const [text, setText] = useState<string>('');

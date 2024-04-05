@@ -1,17 +1,6 @@
 import React from 'react';
 import { Paper, Checkbox, Typography, Button } from '@mui/material';
-
-interface Task {
-    id: number;
-    text: string;
-    completed: boolean;
-  }
-
-interface TaskItemProps {
-  task: Task;
-  toggleTask: (taskId: number) => void;
-  removeTask: (taskId: number) => void;
-}
+import { TaskItemProps } from '../interfaces/interfaces';
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, toggleTask, removeTask }) => {
   const { id, text, completed } = task;

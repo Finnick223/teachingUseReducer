@@ -4,12 +4,8 @@ import { Container, CssBaseline } from '@mui/material';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import TaskFilter from './components/TaskFilter';
+import { Task } from './interfaces/interfaces';
 
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-}
 type Action =
   | { type: 'ADD_TASK'; payload: string }
   | { type: 'TOGGLE_TASK'; payload: number }

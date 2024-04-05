@@ -1,18 +1,7 @@
 import TaskItem from './TaskItem';
 import { Box, Typography } from '@mui/material';
+import { TaskListProps } from '../interfaces/interfaces';
 
-interface Task {
-    id: number;
-    text: string;
-    completed: boolean;
-  }
-
-interface TaskListProps {
-  tasks: Task[];
-  filteredTasks: Task[];
-  toggleTask: (taskId: number) => void;
-  removeTask: (taskId: number) => void;
-}
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, filteredTasks, toggleTask, removeTask }) => {
   return (
@@ -25,7 +14,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, filteredTasks, toggleTask, r
           removeTask={removeTask}
           />
         ))}
-        <Typography sx={{m: 3, display: "flex", justifyContent: "center"}}>Liczba zadań do zrobienia: {tasks.filter(task => !task.completed).length}</Typography>
+        <Typography sx={{m: 3, display: "flex", justifyContent: "center"}}>Tasks waiting to complete: {tasks.filter(task => !task.completed).length}</Typography>
     </Box>
   );
 };

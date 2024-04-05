@@ -1,9 +1,6 @@
 import { ButtonGroup, Button } from '@mui/material';
+import { TaskFilterProps } from '../interfaces/interfaces';
 
-
-interface TaskFilterProps {
-    filterTask: (filterType: string) => void;
-  }
   
 const TaskFilter: React.FC<TaskFilterProps> = ({ filterTask }) => {
     const handleClick = (e: any) => {
