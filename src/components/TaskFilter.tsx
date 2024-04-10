@@ -6,6 +6,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({ filterTask }) => {
     const handleClick = (e: any) => {
         filterTask(e.target.value)
     }
+  // Ale checa
   return (
     <ButtonGroup sx={{display: "flex", flexDirection: {xs: "column", md: "row"}}}>
         <Button onClick={handleClick} variant="contained" sx={{ width: {xs: "60vw",md: "15vw"}, px: 6, py: 2, my: 0.5}}>ALL</Button>
