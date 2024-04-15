@@ -6,15 +6,6 @@
 import type {Config} from 'jest';
 
 const config: Config = {
-  // All imported modules in your tests should be mocked automatically
-  // automock: false,
-
-  // Stop running tests after `n` failures
-  // bail: 0,
-
-  // The directory where Jest should store its cached dependency information
-  // cacheDirectory: "/private/var/folders/rc/rvmd3t0j4v15wkhkg62rq_f00000gn/T/jest_dx",
-
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
   testEnvironment: 'jsdom', // Ustawienie środowiska testowego na jsdom
@@ -22,6 +13,8 @@ const config: Config = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest', // Dodaj transformację dla plików TSX za pomocą ts-jest
   },
+  // setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
+  // moduleDirectories: ["node_modules", "src"],
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
