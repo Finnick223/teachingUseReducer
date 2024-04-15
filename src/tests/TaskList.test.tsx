@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { fireEvent } from '@testing-library/react';
 import TaskList from '../components/TaskList';
 
@@ -32,7 +32,7 @@ describe('TaskList component', () => {
     const mockToggleTask = jest.fn();
     const mockRemoveTask = jest.fn();
   
-    const { getByText } = render(
+    const { getByRole, getByText } = render(
       <TaskList
         tasks={tasks}
         filteredTasks={filteredTasks}
@@ -41,22 +41,23 @@ describe('TaskList component', () => {
       />
     );
   
-    // Znajdujemy element zawierający tekst "Task 1" i symulujemy na nim kliknięcie
-    fireEvent.click(getByText('Task 1'));
+    const checkbox = getByRole('checkbox');
+    fireEvent.click(checkbox);
   
-    // Sprawdzamy, czy funkcja toggleTask została wywołana z odpowiednim id zadania
     expect(mockToggleTask).toHaveBeenCalledWith(tasks[0].id);
   
-    // Symulujemy kliknięcie na przycisku usuwania
-    fireEvent.click(getByText('Delete'));
+    const deleteButton = getByText('Delete');
+    fireEvent.click(deleteButton);
   
-    // Sprawdzamy, czy funkcja removeTask została wywołana z odpowiednim id zadania
     expect(mockRemoveTask).toHaveBeenCalledWith(tasks[0].id);
-});
-
-//   it('displays correct number of tasks to complete', () => {
-//     const { container } = render(<TaskList tasks={tasks} filteredTasks={filteredTasks} toggleTask={toggleTask} removeTask={removeTask} />);
+  });
+  
+  it('displays correct number of tasks to complete', () => {
+    render(<TaskList tasks={tasks} filteredTasks={filteredTasks} toggleTask={toggleTask} removeTask={removeTask} />);
     
-//     expect(container.querySelector('Typography')?.textContent).toContain('Tasks waiting to complete: 1');
-// });
+    const typographyElement = screen.getByText(/Tasks waiting to complete:/i);
+    expect(typographyElement).toBeTruthy();
+    expect(typographyElement.textContent).toContain(`Tasks waiting to complete: ${tasks.filter(task => !task.completed).length}`);
+  });
+  
 });
