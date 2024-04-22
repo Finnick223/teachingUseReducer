@@ -2,8 +2,12 @@ export interface Task {
     id: number;
     text: string;
     completed: boolean;
-  }
+}
 
+export interface State {
+    tasks: Task[];
+    filter: string;
+  };
 export interface TaskListProps {
     tasks: Task[];
     filteredTasks: Task[];

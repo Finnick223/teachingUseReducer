@@ -1,52 +1,57 @@
-import { useReducer, useState, useMemo } from 'react';
+import { useReducer, useMemo } from 'react';
 import ButtonAppBar from './components/ButtonAppBar';
 import { Container, CssBaseline } from '@mui/material';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import TaskFilter from './components/TaskFilter';
-import { Task } from './interfaces/interfaces';
+import { State } from './interfaces/interfaces';
 
 type Action =
   | { type: 'ADD_TASK'; payload: string }
   | { type: 'TOGGLE_TASK'; payload: number }
-  // | { type: 'FILTER_TASK'; payload: string }
+  | { type: 'SET_FILTER'; payload: string }
   | { type: 'REMOVE_TASK'; payload: number };
 
-export const reducer = (state: Task[], action: Action): Task[]  => {
+export const reducer = (state: State, action: Action): State  => {
   switch(action.type){
     case 'ADD_TASK':
-      return [
+      return {
         ...state,
-        {
-          id: Date.now(),
-          text: action.payload,
-          completed: false,
-        },
-      ];
+        tasks: [
+          ...state.tasks,
+          {
+            id: Date.now(),
+            text: action.payload,
+            completed: false,
+          },
+        ],
+      };
     case 'TOGGLE_TASK':
-      return state.map(task => 
-        task.id === action.payload ? {...task, completed: !task.completed } : task
-      )
+      return {
+        ...state,
+        tasks: state.tasks.map(task =>
+          task.id === action.payload ? { ...task, completed: !task.completed } : task
+        ),
+      };
     case 'REMOVE_TASK':
-      return state.filter(task => task.id !== action.payload);
-    // case 'FILTER_TASK':
-    //   if(action.payload==='all'){
-    //     return state
-    //   }
-    //   else if(action.payload==='pending'){
-    //     return state.filter(task => !task.completed)
-    //   }
-    //   else if(action.payload==='completed'){
-    //     return state.filter(task => task.completed)
-    //   }
+      return {
+        ...state,
+        tasks: state.tasks.filter(task => task.id !== action.payload),
+      };
+
+    case 'SET_FILTER':
+      return {
+        ...state,
+        filter: action.payload,
+      };
+
     default:
       return state;
   }
 }
 
 function App() {
-  const [tasks, dispatch] = useReducer(reducer, []);
-  const [filter, setFilter] = useState<string>('all');
+  const [state, dispatch] = useReducer(reducer, { tasks: [], filter: '' });
 
   const addTask = (text: string) => {
     dispatch({ type: 'ADD_TASK', payload: text });
@@ -59,24 +64,20 @@ function App() {
   const removeTask = (taskId: number) => {
     dispatch({type: 'REMOVE_TASK', payload: taskId});
   }
-  // const filterTask = (filter: string) => {
-  //   dispatch({type: 'FILTER_TASK', payload: filter})
-  // }
   const filterTask = (filter: string) => {
-    setFilter(filter)
+    dispatch({type: 'SET_FILTER', payload: filter})
   }
+
   const filteredTasks = useMemo(() => {
-    switch (filter) {
-      case 'all':
-        return tasks;
+    switch (state.filter) {
       case 'pending':
-        return tasks.filter(task => !task.completed);
+        return state.tasks.filter(task => !task.completed);
       case 'completed':
-        return tasks.filter(task => task.completed);
+        return state.tasks.filter(task => task.completed);
       default:
-        return tasks;
+        return state.tasks;
     }
-  }, [tasks, filter]);
+  }, [state.tasks, state.filter]);
 
   return (
     <>
@@ -94,7 +95,7 @@ function App() {
         }}
       >
         <TaskForm addTask={addTask} />
-        <TaskList tasks={tasks} filteredTasks={filteredTasks} toggleTask={toggleTask} removeTask={removeTask} />
+        <TaskList tasks={state.tasks} filteredTasks={filteredTasks} toggleTask={toggleTask} removeTask={removeTask} />
         <TaskFilter filterTask={filterTask} />
       </Container>
     </>
