@@ -12,7 +12,7 @@ type Action =
   // | { type: 'FILTER_TASK'; payload: string }
   | { type: 'REMOVE_TASK'; payload: number };
 
-const reducer = (state: Task[], action: Action): Task[]  => {
+export const reducer = (state: Task[], action: Action): Task[]  => {
   switch(action.type){
     case 'ADD_TASK':
       return [
